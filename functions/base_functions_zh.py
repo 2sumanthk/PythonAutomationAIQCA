@@ -1,3 +1,5 @@
+import urllib.request
+
 from pyjavaproperties import Properties
 from selenium import webdriver
 from selenium.webdriver import ActionChains
@@ -127,6 +129,28 @@ def find_elements(elements_to_be_found):
     else:
         val = driver.find_elements('css_selector', obj)
     return val
+
+
+def get_attribute(link_element, attribute_name):
+    obj = properties_china(link_element)
+    if link_element.endswith('_xpath'):
+        val = driver.find_element('xpath', obj).get_attribute(attribute_name)
+    elif link_element.endswith('_id'):
+        val = driver.find_element('id', obj).get_attribute(attribute_name)
+    elif link_element.endswith('_name'):
+        val = driver.find_element('name', obj).get_attribute(attribute_name)
+    else:
+        val = driver.find_element('css_selector', obj).get_attribute(attribute_name)
+    return val
+
+
+def verify_link(link):
+    status_code = urllib.request.urlopen(link).getcode()
+    if status_code == 200:
+        print('link verified successfully with status code: ', status_code)
+    else:
+        print('Link Failed with status code: ', status_code)
+    return status_code
 
 
 # Common Utility Functions
