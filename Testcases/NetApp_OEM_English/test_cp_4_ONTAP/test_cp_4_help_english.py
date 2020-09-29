@@ -3,9 +3,6 @@ import pytest
 import allure
 from functions.ExcelFunctions import ReadWriteExcel
 
-# Reading data from excel
-data_read = ReadWriteExcel(
-    "C://Users//Sumanth//PycharmProjects//PythonTesting//Resources//configurations//testdata//Test_data.xlsx")
 
 # filename to be used in screen shot
 test_file_name = os.path.basename(__file__)
@@ -26,6 +23,7 @@ def test_ontap_help_one():
     assert actual_output.text == expected_output
 
 
+
 def test_ontap_help_two():
     actual_output = find_element("help_aiq_issues_addressed_new_features_xpath")
     expected_output = properties('help_aiq_issues_addressed_new_features_string2')
@@ -33,9 +31,10 @@ def test_ontap_help_two():
     highlight_element(actual_output)
     capture_screenshot(test_file_name)
     sleep(1)
-    switch_to_window(0)
     assert actual_output.text == expected_output
+    sleep(1)
+    close_browser()
 
 
-test_ontap_help_one()
-test_ontap_help_two()
+# test_ontap_help_one()
+# test_ontap_help_two()
