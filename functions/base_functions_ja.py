@@ -17,7 +17,7 @@ import os
 
 prop_ja = Properties()
 properties_file_ja = open(
-    'C://Users//Sumanth//PycharmProjects//PythonTesting//Resources//configurations//properties//config_ja.properties')
+    'C://Users//Administrator//PycharmProjects//PythonAutomationAIQCA//Resources//configurations//properties//config_ja.properties')
 prop_ja.load(properties_file_ja)
 
 
@@ -248,7 +248,7 @@ def capture_screenshot(test_filename):
     now = datetime.now()  # dd/mm/YY H:M:S
     dt_string = now.strftime("%b_%d_%Y_%I_%M_%S")
     driver.get_screenshot_as_file(
-        'C://Users//Sumanth//PycharmProjects//PythonTesting//ScreenShots//' + test_filename_new[
+        'C://Users//Administrator//PycharmProjects//PythonAutomationAIQCA//ScreenShots//ScreenShots_JA//' + test_filename_new[
             0] + '_' + browser_name + '_' + dt_string + '.png')
     # On Local use = C://Users//Sumanth//Pictures//ScreenShots//
 

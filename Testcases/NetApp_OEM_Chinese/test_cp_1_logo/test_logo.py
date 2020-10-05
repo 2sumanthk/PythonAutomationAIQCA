@@ -3,7 +3,7 @@ import pytest
 from functions.ExcelFunctions import ReadWriteExcel
 
 # Reading data from excel
-data_read = ReadWriteExcel("C://Users//Sumanth//PycharmProjects//PythonTesting//Resources//configurations//testdata//Test_data.xlsx")
+data_read = ReadWriteExcel("C://Users//Administrator//PycharmProjects//PythonAutomationAIQCA//Resources//configurations//testdata//Test_data.xlsx")
 
 # filename to be used in screen shot
 test_file_name = os.path.basename(__file__)

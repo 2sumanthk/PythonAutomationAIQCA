@@ -15,8 +15,7 @@ import logging
 import os
 
 prop_en = Properties()
-properties_file_en = open(
-    'C://Users//Sumanth//PycharmProjects//PythonTesting//Resources//configurations//properties//config.properties')
+properties_file_en = open('C://Users//Administrator//PycharmProjects//PythonAutomationAIQCA//Resources//configurations//properties//config.properties')
 prop_en.load(properties_file_en)
 
 
@@ -230,7 +229,7 @@ def capture_screenshot(test_filename):
     now = datetime.now()  # dd/mm/YY H:M:S
     dt_string = now.strftime("%b_%d_%Y_%I_%M_%S")
     driver.get_screenshot_as_file(
-        'C://Users//Sumanth//PycharmProjects//PythonTesting//ScreenShots//' + test_filename_new[
+        'C://Users//Administrator//PycharmProjects//PythonAutomationAIQCA//ScreenShots//ScreenShots_EN//' + test_filename_new[
             0] + '_' + browser_name + '_' + dt_string + '.png')
     # On Local use = C://Users//Sumanth//Pictures//ScreenShots//
 
