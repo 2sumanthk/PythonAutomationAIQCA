@@ -47,10 +47,16 @@ else:
 
 def maximize_window():
     driver.maximize_window()
+    click('Notification_popup_xpath')
 
 
 def minimize_window():
     driver.minimize_window()
+
+
+def title():
+    sleep(1)
+    return driver.title
 
 
 def click(element_to_be_clicked):

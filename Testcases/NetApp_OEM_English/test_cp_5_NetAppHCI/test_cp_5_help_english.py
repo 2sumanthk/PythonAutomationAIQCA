@@ -28,4 +28,4 @@ def test_netapp_hci_help_one():
     #assert actual_output.text == expected_output
 
 
-test_netapp_hci_help_one()
+# test_netapp_hci_help_one()

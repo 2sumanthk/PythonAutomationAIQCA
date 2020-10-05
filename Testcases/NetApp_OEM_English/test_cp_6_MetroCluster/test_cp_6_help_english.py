@@ -28,4 +28,4 @@ def test_metrocluster_help_one():
     quit_browser()
 
 
-test_metrocluster_help_one()
+# test_metrocluster_help_one()

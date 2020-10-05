@@ -33,9 +33,9 @@ def test_ontap_help_two():
     highlight_element(actual_output)
     capture_screenshot(test_file_name)
     sleep(1)
-    switch_to_window(0)
     assert actual_output.text == expected_output
+    switch_to_window(0)
 
 
-test_ontap_help_one()
-test_ontap_help_two()
+# test_ontap_help_one()
+# test_ontap_help_two()

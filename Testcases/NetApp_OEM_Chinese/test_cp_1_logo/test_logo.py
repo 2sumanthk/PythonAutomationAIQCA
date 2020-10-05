@@ -21,3 +21,6 @@ def test_logo():
         capture_screenshot(test_file_name)
         img_element_set.add(image_element)
     return img_element_set
+
+
+test_logo()
