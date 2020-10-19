@@ -1,4 +1,4 @@
-from functions.base_functions_en import *
+from functions.base_functions_zh import *
 import pytest
 from functions.ExcelFunctions import ReadWriteExcel
 
@@ -23,4 +23,4 @@ def test_logo():
     return img_element_set
 
 
-test_logo()
+# test_logo()

@@ -3,10 +3,6 @@ import pytest
 import allure
 from functions.ExcelFunctions import ReadWriteExcel
 
-# Reading data from excel
-data_read = ReadWriteExcel(
-    "C://Users//Sumanth//PycharmProjects//PythonTesting//Resources//configurations//testdata//Test_data.xlsx")
-
 # filename to be used in screen shot
 test_file_name = os.path.basename(__file__)
 
@@ -21,9 +17,10 @@ def test_netapp_hci_notifications_one():
     sleep(1)
     actual_output = find_element("notifications_aiq_new_features3_xpath")
     print("Element Returned Test: ", actual_output.text)
+    expected_output = properties('check_point5_ONTAP_string_new_features3_string1')
     highlight_element(actual_output)
     capture_screenshot(test_file_name)
-    #assert actual_output.text == expected_output
+    assert actual_output.text == expected_output
 
 
 def test_netapp_hci_notifications_two():
@@ -37,5 +34,5 @@ def test_netapp_hci_notifications_two():
     assert actual_output.text == expected_output
 
 
-test_netapp_hci_notifications_one()
-test_netapp_hci_notifications_two()
+# test_netapp_hci_notifications_one()
+# test_netapp_hci_notifications_two()

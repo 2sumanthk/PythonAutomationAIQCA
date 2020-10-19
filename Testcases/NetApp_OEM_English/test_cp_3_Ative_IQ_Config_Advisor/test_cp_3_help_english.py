@@ -42,6 +42,6 @@ def test_active_iq_config_advisor_help_three():
     switch_to_window(0)  # default window
 
 
-test_active_iq_config_advisor_help_one()
-test_active_iq_config_advisor_help_two()
-test_active_iq_config_advisor_help_three()
+# test_active_iq_config_advisor_help_one()
+# test_active_iq_config_advisor_help_two()
+# test_active_iq_config_advisor_help_three()

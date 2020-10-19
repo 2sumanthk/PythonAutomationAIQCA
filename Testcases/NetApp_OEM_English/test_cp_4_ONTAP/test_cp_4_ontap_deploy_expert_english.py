@@ -1,11 +1,7 @@
 from functions.base_functions_en import *
 import pytest
 import allure
-from functions.ExcelFunctions import ReadWriteExcel
 
-# Reading data from excel
-data_read = ReadWriteExcel(
-    "C://Users//Sumanth//PycharmProjects//PythonTesting//Resources//configurations//testdata//Test_data.xlsx")
 
 # filename to be used in screen shot
 test_file_name = os.path.basename(__file__)
@@ -32,8 +28,6 @@ def test_ontap_deploy_expert_two():
     highlight_element(actual_output)
     capture_screenshot(test_file_name)
     assert actual_output.text == expected_output
-
-
 
 
 # test_ontap_deploy_expert_one()

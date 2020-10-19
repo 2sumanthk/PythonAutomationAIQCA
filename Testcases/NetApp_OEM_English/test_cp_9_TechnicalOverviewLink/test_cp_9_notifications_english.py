@@ -31,5 +31,5 @@ def test_verify_technical_overview_link_two():
     assert status_code == 200
 
 
-test_netapp_technical_overview_link_notifications_one()
-test_verify_technical_overview_link_two()
+# test_netapp_technical_overview_link_notifications_one()
+# test_verify_technical_overview_link_two()

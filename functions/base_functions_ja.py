@@ -1,10 +1,13 @@
 import base64
 import urllib.request
 
+import allure
+from allure_commons.types import AttachmentType
 from pyjavaproperties import Properties
 from selenium import webdriver
-from selenium.webdriver import ActionChains
+from selenium.webdriver import ActionChains, DesiredCapabilities
 from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from webdriver_manager.chrome import ChromeDriverManager
@@ -21,33 +24,12 @@ properties_file_ja = open(
 prop_ja.load(properties_file_ja)
 
 
-def properties_japan(prop_value):
-    value = prop_ja[prop_value]
-    return value
-
-# browser_name = input("Enter The Browser Name :")
-# locale = input("Enter The Locale Option (en-US or zh-CN or ja-JP) :")
-# if browser_name == 'chrome' and (locale == 'en-US' or locale == 'zh-CN' or locale == 'ja-JP'):
-#     options = webdriver.ChromeOptions()
-#     options.add_argument('ChromeDriverManager().install()')
-#     options.add_argument('--ignore-ssl-errors=yes')
-#     options.add_argument('--ignore-certificate-errors')
-#     options.add_argument('--lang=' + locale)
-#     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
-#
-# elif browser_name == 'firefox' and (locale == 'en-US' or locale == 'zh-CN' or locale == 'ja-JP'):
-#     options = webdriver.FirefoxProfile()
-#     options.binary_location = "/usr/bin/firefox"
-#     # options.add_("-headless")
-#     options.accept_untrusted_certs = True
-#     driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), firefox_options=options)
-#
-# else:
-#     print('specify the correct browser name or language correctly')
+def properties_japan(prop_key):
+    prop_value = prop_ja[prop_key]
+    return prop_value
 
 
 browser_name = 'chrome'
-
 if browser_name == 'chrome':
     options = webdriver.ChromeOptions()
     options.add_argument('ChromeDriverManager().install()')
@@ -58,17 +40,23 @@ if browser_name == 'chrome':
 
 
 elif browser_name == 'firefox':
-    options = webdriver.FirefoxProfile()
-    options.accept_untrusted_certs = True
-    driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), options=options)
+    options = webdriver.FirefoxOptions()
+    ff_profile = webdriver.FirefoxProfile()
+    binary = FirefoxBinary('C:\\Program Files\\Mozilla Firefox\\firefox.exe')
+    firefox_capabilities = DesiredCapabilities.FIREFOX
+    ff_profile.set_preference("intl.accept_languages", "ja")
+    ff_profile.update_preferences()
+    firefox_capabilities['marionette'] = True
+    ff_profile.accept_untrusted_certs = True
+    driver = webdriver.Firefox(firefox_binary=binary, executable_path=GeckoDriverManager().install(), firefox_profile=ff_profile)
 
 else:
     print('specify the correct browser name')
 
 
 def maximize_window():
-    driver.maximize_window()
-    click('Notification_popup_xpath')
+    with allure.step("Maximizing Window..."):
+        driver.maximize_window()
 
 
 def minimize_window():
@@ -76,20 +64,22 @@ def minimize_window():
 
 
 def title():
-    sleep(1)
-    return driver.title()
+    with allure.step("Verifying the window title  : " + driver.title):
+        sleep(1)
+        return driver.title
 
 
 def click(element_to_be_clicked):
-    obj = properties_japan(element_to_be_clicked)
-    if element_to_be_clicked.endswith('_xpath'):
-        val = driver.find_element('xpath', obj).click()
-    elif element_to_be_clicked.endswith('_id'):
-        val = driver.find_element('id', obj).click()
-    elif element_to_be_clicked.endswith('_name'):
-        val = driver.find_element('name', obj).click()
-    else:
-        val = driver.find_element('css_selector', obj).click()
+    with allure.step("Clicking on " + element_to_be_clicked):
+        obj = properties_japan(element_to_be_clicked)
+        if element_to_be_clicked.endswith('_xpath'):
+            val = driver.find_element('xpath', obj).click()
+        elif element_to_be_clicked.endswith('_id'):
+            val = driver.find_element('id', obj).click()
+        elif element_to_be_clicked.endswith('_name'):
+            val = driver.find_element('name', obj).click()
+        else:
+            val = driver.find_element('css_selector', obj).click()
 
 
 def move_to_element(element):
@@ -109,20 +99,23 @@ def move_to_element(element):
 
 
 def type_in(element, data):
-    return get_element(element).send_keys(data)
+    placeholder_value = find_element(element).get_attribute('placeholder')
+    with allure.step("Typing data in the "+placeholder_value+" field : " + data):
+        return get_element(element).send_keys(data)
 
 
 def find_element(element_to_be_found):
-    obj = properties_japan(element_to_be_found)
-    if element_to_be_found.endswith('_xpath'):
-        source = driver.find_element('xpath', obj)
-    elif element_to_be_found.endswith('_id'):
-        source = driver.find_element('id', obj)
-    elif element_to_be_found.endswith('_name'):
-        source = driver.find_element('name', obj)
-    else:
-        source = driver.find_element('css_selector', obj)
-    return source
+    with allure.step("Finding Element " + element_to_be_found):
+        obj = properties_japan(element_to_be_found)
+        if element_to_be_found.endswith('_xpath'):
+            source = driver.find_element('xpath', obj)
+        elif element_to_be_found.endswith('_id'):
+            source = driver.find_element('id', obj)
+        elif element_to_be_found.endswith('_name'):
+            source = driver.find_element('name', obj)
+        else:
+            source = driver.find_element('css_selector', obj)
+        return source
 
 
 def find_elements(elements_to_be_found):
@@ -149,16 +142,6 @@ def get_attribute(link_element, attribute_name):
     else:
         val = driver.find_element('css_selector', obj).get_attribute(attribute_name)
     return val
-
-
-def verify_link(link):
-    status_code = urllib.request.urlopen(link).getcode()
-    if status_code == 200:
-        print('link verified successfully with status code: ', status_code)
-    else:
-        print('Link Failed with status code: ', status_code)
-    return status_code
-
 
 # Common Utility Functions
 
@@ -221,15 +204,17 @@ def get_element(locator_key):
 
 
 def highlight_element(element):
-    driver.execute_script("arguments[0].setAttribute('style', 'background: none; border: 5px solid red;');",
+    checkpoint = element.text
+    with allure.step("Highlighting Checkpoint - " + checkpoint):
+        driver.execute_script("arguments[0].setAttribute('style', 'background: none; border: 5px solid red;');",
                           element)
-    # time.sleep(1)
+    time.sleep(1)
 
 
 def switch_to_window(value):
     driver.switch_to.window(driver.window_handles[value])
-    # Index value = 0 -> switches to  default window or primary working window,
-    # Index value = 1 -> switches to 1st new window or new tab
+    # value = 0 -> switches to  default window or primary working window,
+    # value = 1 -> switches to 1st new window or new tab
 
 
 def scroll_page(height):
@@ -247,10 +232,9 @@ def capture_screenshot(test_filename):
     test_filename_new = test_filename.split('.py')
     now = datetime.now()  # dd/mm/YY H:M:S
     dt_string = now.strftime("%b_%d_%Y_%I_%M_%S")
-    driver.get_screenshot_as_file(
-        'C://Users//Administrator//PycharmProjects//PythonAutomationAIQCA//ScreenShots//ScreenShots_JA//' + test_filename_new[
-            0] + '_' + browser_name + '_' + dt_string + '.png')
-    # On Local use = C://Users//Sumanth//Pictures//ScreenShots//
+    screenshot_name = test_filename_new[0] + '_' + browser_name + '_' + dt_string
+    driver.get_screenshot_as_file('C://Users//Administrator//PycharmProjects//PythonAutomationAIQCA//ScreenShots//ScreenShots_JA//'+ screenshot_name + '.png')
+    allure.attach(driver.get_screenshot_as_png(), ""+screenshot_name, AttachmentType.PNG)
 
 
 def quit_browser():
@@ -268,8 +252,12 @@ def sleep(time_in_seconds):
 
 
 def search_strings(pattern, string):
-    match = re.findall(pattern, string)
-    return match  # match returns a list of matched strings
+    match = re.search(pattern, string)
+    if match:
+        found = match.group(0)
+        return found
+    else:
+        return "Checkpoint captured did not match with", pattern
 
 
 def all_url_call():
@@ -285,6 +273,27 @@ def encode_and_decode(value):
     str1 = base64.b64encode(value.encode('utf-8'))
     str2 = base64.b64decode(str1).decode('utf-8')
     print(str2)
+
+
+# browser_name = input("Enter The Browser Name :")
+# locale = input("Enter The Locale Option (en-US or zh-CN or ja-JP) :")
+# if browser_name == 'chrome' and (locale == 'en-US' or locale == 'zh-CN' or locale == 'ja-JP'):
+#     options = webdriver.ChromeOptions()
+#     options.add_argument('ChromeDriverManager().install()')
+#     options.add_argument('--ignore-ssl-errors=yes')
+#     options.add_argument('--ignore-certificate-errors')
+#     options.add_argument('--lang=' + locale)
+#     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+#
+# elif browser_name == 'firefox' and (locale == 'en-US' or locale == 'zh-CN' or locale == 'ja-JP'):
+#     options = webdriver.FirefoxProfile()
+#     options.binary_location = "/usr/bin/firefox"
+#     # options.add_("-headless")
+#     options.accept_untrusted_certs = True
+#     driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(), firefox_options=options)
+#
+# else:
+#     print('specify the correct browser name or language correctly')
 
 # def all_locale_call():
 #     locale_values = []

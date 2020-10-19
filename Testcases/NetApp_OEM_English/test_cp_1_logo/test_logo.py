@@ -22,3 +22,6 @@ def test_logo():
         img_element_set.add(image_element)
     return img_element_set
 
+
+# test_logo()
+

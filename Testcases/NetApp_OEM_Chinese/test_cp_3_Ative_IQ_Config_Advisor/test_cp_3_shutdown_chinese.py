@@ -1,7 +1,7 @@
 from functions.base_functions_zh import *
 import pytest
 import allure
-import pytest_check as check
+
 from functions.ExcelFunctions import ReadWriteExcel
 
 # Reading data from excel

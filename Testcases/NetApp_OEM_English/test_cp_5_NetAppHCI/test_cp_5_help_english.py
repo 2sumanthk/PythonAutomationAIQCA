@@ -3,9 +3,6 @@ import pytest
 import allure
 from functions.ExcelFunctions import ReadWriteExcel
 
-# Reading data from excel
-data_read = ReadWriteExcel(
-    "C://Users//Sumanth//PycharmProjects//PythonTesting//Resources//configurations//testdata//Test_data.xlsx")
 
 # filename to be used in screen shot
 test_file_name = os.path.basename(__file__)
@@ -24,8 +21,9 @@ def test_netapp_hci_help_one():
     print("Element Returned Test: ", actual_output.text)
     highlight_element(actual_output)
     capture_screenshot(test_file_name)
-    quit_browser()
-    #assert actual_output.text == expected_output
+    assert actual_output.text == expected_output
+    close_browser()
+
 
 
 # test_netapp_hci_help_one()

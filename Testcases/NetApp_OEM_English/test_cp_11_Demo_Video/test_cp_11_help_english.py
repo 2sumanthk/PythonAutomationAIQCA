@@ -32,10 +32,11 @@ def test_verify_demo_video_link_two():
 def test_verify_demo_video_site_title_three():
     click("help_product_title_demo_video_xpath")
     switch_to_window(1)
+    sleep(5)
     actual_output = title()
     expected_output = properties('verify_title_demo_video_string2')
-    close_browser()
     assert actual_output == expected_output
+    close_browser()
     print('Title Verified Successfully')
 
 

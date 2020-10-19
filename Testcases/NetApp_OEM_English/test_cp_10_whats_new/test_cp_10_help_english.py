@@ -25,6 +25,7 @@ def test_verify_whats_new_link_two():
     actual_output = get_attribute("help_product_title_whats_new_xpath", "href")
     print("Link obtained is: ", actual_output)
     expected_output = properties('help_product_title_whats_new_link')
+    verify_link(actual_output)
     assert actual_output == expected_output
     print('Link Verified Successfully')
 
@@ -34,8 +35,8 @@ def test_verify_whats_new_site_title_three():
     switch_to_window(1)
     actual_output = title()
     expected_output = properties('verify_title_whats_new_string2')
-    close_browser()
     assert actual_output == expected_output
+    close_browser()
     print('Title Verified Successfully')
 
 
